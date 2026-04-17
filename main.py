@@ -74,29 +74,31 @@ def fix_email(raw: str) -> str:
 # -------------------------------------------------------------------
 
 def process_file(input_path: str, output_path: str) -> None:
+    count = 0
     with open(input_path, encoding="utf-8") as fin, \
          open(output_path, "w", encoding="utf-8") as fout:
-
         for line in fin:
             line = line.strip()
             if not line:
                 continue
-
             parts = line.split("|")
             if len(parts) != 4:
-                continue  # некорректная строка — пропускаем
-
+                continue
+            
             name  = fix_name(parts[0])
             age   = fix_age(parts[1])
             phone = fix_phone(parts[2])
             email = fix_email(parts[3])
-
+            
             result = f"{name}|{age}|{phone}|{email}"
+            fout.write(result + "\n")
+            count += 1
+            
             print(f"Вход:  {line}")
             print(f"Выход: {result}\n")
-            fout.write(result + "\n")
-
-    print(f"Готово! Результат записан в {output_path}")
+            
+    print(f"Обработка завершена. Успешно сохранено строк: {count}")
+    print(f"Результат записан в {output_path}")
 
 
 # -------------------------------------------------------------------
