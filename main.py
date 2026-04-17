@@ -24,7 +24,15 @@ def fix_name(raw: str) -> str:
 
 def fix_age(raw: str) -> str:
     """Оставляет только цифры, проверяет диапазон 0–130."""
-    pass  # TODO
+    if not raw or not raw.strip():
+        return ""
+    digits = re.sub(r'[^0-9]', '', raw.strip())
+    if not digits:
+        return ""
+    age = int(digits)
+    if 0 <= age <= 130:
+        return str(age)
+    return ""
 
 
 def fix_phone(raw: str) -> str:
