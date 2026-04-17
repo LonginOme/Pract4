@@ -8,7 +8,18 @@ import sys
 
 def fix_name(raw: str) -> str:
     """Разделяет слитно написанное ИмяФамилия пробелом."""
-    pass  # TODO
+    if not raw or not raw.strip():
+        return ""
+    raw = raw.strip()
+    # Если уже есть пробел и формат правильный — возвращаем как есть
+    if re.match(r'^[А-ЯЁ][а-яё]+\s[А-ЯЁ][а-яё]+$', raw):
+        return raw
+    # Разделяем там, где строчная буква переходит в заглавную
+    fixed = re.sub(r'([а-яё])([А-ЯЁ])', r'\1 \2', raw)
+    # Проверяем что получилось "Слово Слово"
+    if re.match(r'^[А-ЯЁ][а-яё]+\s[А-ЯЁ][а-яё]+$', fixed):
+        return fixed
+    return ""
 
 
 def fix_age(raw: str) -> str:
