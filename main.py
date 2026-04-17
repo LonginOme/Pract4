@@ -37,7 +37,16 @@ def fix_age(raw: str) -> str:
 
 def fix_phone(raw: str) -> str:
     """Приводит телефон к формату +7 (XXX) XXX-XX-XX."""
-    pass  # TODO
+    if not raw or not raw.strip():
+        return ""
+    digits = re.sub(r'[^0-9]', '', raw.strip())
+    # Убираем ведущую 7 или 8
+    if digits.startswith('7') or digits.startswith('8'):
+        digits = digits[1:]
+    # После кода страны должно быть ровно 10 цифр
+    if len(digits) != 10:
+        return ""
+    return f"+7 ({digits[0:3]}) {digits[3:6]}-{digits[6:8]}-{digits[8:10]}"
 
 
 def fix_email(raw: str) -> str:
